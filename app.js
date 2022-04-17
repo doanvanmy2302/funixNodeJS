@@ -1,8 +1,9 @@
 
 const http = require('http');
-
+const fs = require('fs');
 const server = http.createServer((req, res) => {
     const url= req.url;
+    const method = req.method;
     if(url ==='/'){
         res.write('<html>');
         res.write('<head><title>Enter message</title></head>');
@@ -10,7 +11,14 @@ const server = http.createServer((req, res) => {
         res.write('</html>');
         return res.end();
     }
-    
+    if(method==='POST' && url==='/message'){
+        fs.writeFile('message.txt','DUMMY');
+        res.StatusCode=302;
+        res.setHeader('Location','/');
+        return res.end();
+
+
+    }
     console.log(req.url, req.method, req.headers);
     res.setHeader('Content-Type', 'text/html');
     res.write('<html>');
