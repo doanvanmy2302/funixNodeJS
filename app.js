@@ -2,13 +2,14 @@
 const http = require('http');
 const express = require('express');
 const app=express();
-const server = http.createServer(app);
-app.use((res,req,next) =>{
-    console.log("this is a middleware");
-    next()
-});
-app.use((res,req,next) =>{
-    console.log("this is a another middleware");
-});
 
+app.use((req,res,next) =>{
+    console.log("this is a middleware");
+    next();
+});
+app.use((req,res,next) =>{
+    console.log("this is a another middleware");
+    res.send('<h1>Hello from express</h1>')
+});
+const server = http.createServer(app);
 server.listen(3000);

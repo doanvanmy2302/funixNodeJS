@@ -20,6 +20,6 @@
   "homepage": "https://github.com/doanvanmy2302/funixNodeJS#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.19.4"
   }
 }
