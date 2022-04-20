@@ -1,0 +1,25 @@
+{
+  "name": "node_first_app",
+  "version": "1.0.0",
+  "description": "this is project nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doanvanmy2302/funixNodeJS.git"
+  },
+  "author": "my",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doanvanmy2302/funixNodeJS/issues"
+  },
+  "homepage": "https://github.com/doanvanmy2302/funixNodeJS#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "nodemon": "^1.18.3"
+  }
+}
