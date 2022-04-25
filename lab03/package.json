@@ -20,7 +20,10 @@
   "homepage": "https://github.com/doanvanmy2302/funixNodeJS#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
-    "express": "^4.17.3"
+    "ejs": "^3.1.7",
+    "express": "^4.17.3",
+    "express-handlebars": "3.0",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
