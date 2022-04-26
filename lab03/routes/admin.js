@@ -6,7 +6,11 @@ const rootDir =require('../util/path');
 const products =[];
 router.get('/add-product',(req,res,next) =>{
 
-    res.render('add-product', {pageTitle: 'add product', path: '/admin/add-product'});
+    res.render('add-product', {pageTitle: 'add product', path: '/admin/add-product',
+    activeAddProduct: true,
+    formsCSS: true,
+    productCSS: true
+});
 });
 router.post('/add-product',(req,res,next)=>{
     products.push({title: req.body.title});
