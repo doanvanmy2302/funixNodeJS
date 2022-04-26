@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser= require('body-parser');
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const expressHbs =require('express-handlebars')
 const app=express();
 
 app.set('view engine', 'ejs')
