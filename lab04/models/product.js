@@ -21,7 +21,6 @@ module.exports = class Product {
   constructor(t) {
     this.title = t;
   }
-
   save() {
     getProductsFromFile(products => {
       products.push(this);
