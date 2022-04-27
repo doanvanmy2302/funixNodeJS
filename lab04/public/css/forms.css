@@ -18,11 +18,3 @@
 .form-control input:focus {
     outline-color: #00695c;
 }
-button {
- background-color: #00695c;  
- color: white 
-}
- button:hover {
-color: #ffeb3b;
-
-}
