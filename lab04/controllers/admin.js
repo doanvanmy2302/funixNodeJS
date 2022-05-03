@@ -50,7 +50,7 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedDesc = req.body.description;
   const updatedImageUrl = req.body.imageUrl;
-  Product.findById(prodId)
+  Product.findByPk(prodId)
       .then((product) => {
           product.title = updatedTitle;
           product.price = updatedPrice;
