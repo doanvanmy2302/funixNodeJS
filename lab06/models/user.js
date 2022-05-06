@@ -14,7 +14,7 @@ save(){
 }
 
 addToCart(product){
-  const updatedCart= {item: [{...product, quantity: 1}]}
+  const updatedCart= {item: [{productId:new mongodb.ObjectId(product._id), quantity: 1}]}
   const db= getDb();
   db.collection('users').updateOne(
     {_id: new mongodb.ObjectId(this._id)}, 
