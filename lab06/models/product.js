@@ -11,27 +11,27 @@ class Product {
   }
 
   save() {
-   const db = getDb();
-   let dbOp;
-   if(this._id){
-     // update the product 
-     dbOp=db.collection('products')
-     .updateOne({
-       _id: new mongodb.ObjectId(this._id)
-     },{$set: this})
-   } else {
-     dbOp=db.collection('products').insertOne(this)
-   }
+    const db = getDb();
+    let dbOp;
+    if (this._id) {
+        // Update the product
+        dbOp = db
+            .collection('products')
+            .updateOne(
+                { _id: new mongodb.ObjectId(this._id) },
+                { $set: this }
+            );
+    } else {
+        dbOp = db.collection('products').insertOne(this);
+    }
     return dbOp
-      .collection('products')
-      .insertOne(this)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
 
   static fetchAll() {
     const db = getDb();
