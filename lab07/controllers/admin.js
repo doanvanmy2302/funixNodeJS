@@ -1,11 +1,15 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  res.render('admin/edit-product', {
+  Product.find()
+  .then((products) =>{
+    console.log(products);
+    res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
     editing: false
-  });
+  }); 
+  })
 };
 
 exports.postAddProduct = (req, res, next) => {
@@ -79,7 +83,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then(products => {
       res.render('admin/products', {
         prods: products,
