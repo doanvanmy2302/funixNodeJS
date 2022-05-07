@@ -66,14 +66,28 @@ deleteItemFromCart(productId){
     {_id: new mongodb.ObjectId(this._id)}, 
     {$set:{cart: {items: updatedCartItems}}})
 }
-addOrder(){
-  const db=getDb();
-  return db.collection('orders').insertOne(this.cart)
-  .then((result)=>{
-    this.cart={item:[]};
-    return db.collection('users')
-    .updateOne({_id: new mongodb.ObjectId(this._id)}, {$set:{cart: {items:[]}}})
-  })
+addOrder() {
+  const db = getDb();
+  return this.getCart()
+      .then((products) => {
+          const order = {
+              items: products,
+              user: {
+                  _id: new ObjectId(this._id),
+                  name: this.name,
+              },
+          };
+          return db.collection('orders').insertOne(order);
+      })
+      .then((result) => {
+          this.cart = { item: [] };
+          return db
+              .collection('users')
+              .updateOne(
+                  { _id: new ObjectId(this._id) },
+                  { $set: { cart: { items: [] } } }
+              );
+      });
 }
 static findById(userId){
   const db= getDb();
