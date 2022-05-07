@@ -59,7 +59,10 @@ exports.postCart = (req, res, next) => {
 Product.findById(prodId)
 .then((product)=>{
   return req.user.addToCart(product)
-})
+}).then(() => {
+      res.redirect('/cart');
+    })
+  .catch(err => console.log(err));
   // let fetchedCart;
   // let newQuantity = 1;
   // req.user
@@ -86,10 +89,8 @@ Product.findById(prodId)
   //       through: { quantity: newQuantity }
   //     });
   //   })
-  //   .then(() => {
-  //     res.redirect('/cart');
-  //   })
-  //   .catch(err => console.log(err));
+  //   
+  //   
 };
 
 exports.postCartDeleteProduct = (req, res, next) => {
