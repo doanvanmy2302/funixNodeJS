@@ -1,0 +1,73 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <div class="staff-info">
+                    <h2>
+                        <%= staff.name %>
+                    </h2>
+                    <% if(timeRecord) { %>
+                        <h5>Working</h5>
+                        <div>
+                            <label for="location">Working location: </label>
+                            <input type="text" name="location" id="location"
+                                value="<%= timeRecord ? timeRecord.timeRecordId.location : '' %>" readonly>
+                        </div>
+                        <div>
+                            <label for="starttime">Start Time: </label>
+                            <input type="text" name="starttime" id="starttime"
+                                value="<%= timeRecord ? timeRecord.timeRecordId.startTime : '' %>" readonly>
+                        </div>
+                        <% } else { %>
+                            <h5>Not Working</h5>
+                            <% } %>
+                </div>
+                <div class="centered">
+                    <button class="btn" type="button" id="btn-start">Start Working</button>
+                    <button class="btn" type="button" id="btn-end">End Working</button>
+                    <button class="btn" type="button" id="btn-annual-leave">Annual Leave</button>
+                </div>
+
+                <div class="start-working">
+                    <h2>Start Working</h2>
+                    <form action="/start-working" method="POST">
+                        <div>
+                            <label for="name">Full Name</label>
+                            <input type="text" name="name" id="name=" value="<%= staff.name %>" readonly>
+                        </div>
+                        <div>
+                            <label for="location">Work Place</label>
+                            <select id="location" name="location">
+                                <option value="Office" selected>Office</option>
+                                <option value="Home">Home</option>
+                                <option value="Site">Site</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn">Start</button>
+
+                    </form>
+                </div>
+                <div class="end-working form">
+                    <h2>End Working</h2>
+                    <form action="/end-working" method="POST">
+                        <div>
+                            <label for="name">Staff's name: </label>
+                            <input type="text" name="name" id="name" value="<%= staff ? staff.name : '' %>" readonly>
+                            <% if (timeRecord) { %>
+                            <input type="hidden" name="timerecordId" id="timerecordId" value="<%= timeRecord.timeRecordId._id %>">
+                            <% } %>
+                        </div>
+                        <% if (timeRecord) { %>
+                        <button class="btn" type="submit">End</button>
+                        <% } %>
+                    </form>
+                </div>
+
+
+            </main>
+            <%- include('../includes/end.ejs') %>

@@ -1,19 +1,19 @@
 <div class="backdrop"></div>
 <header class="main-header">
-    <button id="side-menu-toggle">My Company</button>
+    <button id="side-menu-toggle"> <a class="<%= path === '/' ? 'active' : '' %>" href="/">My Company</a></button>
     <nav class="main-header__nav">
         <ul class="main-header__item-list">
             <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Employees</a>
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/timekeeping">Timekeeping</a>
             </li>
             <li class="main-header__item">
-                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+                <a class="<%= path === '/edit-staff' ? 'active' : '' %>" href="/edit-staff">Edit Staff</a>
             </li>
             <li class="main-header__item">
-                <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Salary</a>
+                <a class="<%= path === '/salary' ? 'active' : '' %>" href="/salary">Salary</a>
             </li>
             <li class="main-header__item">
-                <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Covid</a>
+                <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">Covid</a>
             </li>
         </ul>
     </nav>
@@ -22,16 +22,16 @@
 <nav class="mobile-nav">
         <ul class="mobile-nav__item-list">
                 <li class="mobile-nav__item">
-                    <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
+                    <a class="<%= path === '/' ? 'active' : '' %>" href="/timekeeping">Timekeeping</a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+                    <a class="<%= path === '/edit-staff' ? 'active' : '' %>" href="/edit-staff">Edit Staff</a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
+                    <a class="<%= path === '/salary' ? 'active' : '' %>" href="/salary">Salary</a>
                 </li>
                 <li class="mobile-nav__item">
-                    <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
+                    <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">Covid</a>
                 </li>
             
             </ul>

@@ -1,0 +1,16 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <hr class="centered">
+            <h1>Welcome to My Company, choose your the task  </h1>
+    </hr>
+       <h1>Today is <%= new date() %></h1>
+</hr>
+   <button type="submit" class="btn" ><a href='/timekeeping'>CHECK IN</a></button>
+   <button type="submit" class="btn" ><a href='/edit-staff'>YOUR PROFILE</a></button>
+   <button type="submit" class="btn" ><a href='/salary'>YOUR WORK TIME ADD SALARY</a></button>
+   <button type="submit" class="btn" ><a href='/covid'>COVID-19</a></button>
+        </main>
+        <%- include('../includes/end.ejs') %>

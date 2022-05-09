@@ -1,5 +1,7 @@
 const path = require('path');
 
+const Staff= require('./models/staff');
+
 const express = require('express');
 
 const mongoose = require('mongoose');
@@ -16,8 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+
+app.use(staffRoutes);
 
 app.use(errorController.get404);
 
