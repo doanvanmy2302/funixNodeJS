@@ -67,7 +67,136 @@
                         <% } %>
                     </form>
                 </div>
-
+                <main>
+                    <div class="staff-info">
+                        <h2>Staff status</h2>
+                        <div>
+                            <label for="name">Staff's name: </label>
+                            <input type="text" name="name" id="name" value="<%= staff ? staff.name : '' %>" readonly>
+                        </div>
+                        <div>
+                            <label for="">Status: </label> 
+                            <input type="text" name="isworking" id="isworking" value="<%= timeRecord ? 'Working' : 'Not Working' %>" readonly>
+                        </div>
+                        <% if (timeRecord) { %>
+                             <div>
+                            <label for="location">Working location: </label>
+                            <input type="text" name="location" id="location" value="<%= timeRecord ? timeRecord.timeRecordId.location : '' %>" readonly>
+                            </div>
+                            <div>
+                                <label for="starttime">Start Time: </label>
+                                <input type="text" name="starttime" id="starttime" value="<%= timeRecord ? timeRecord.timeRecordId.startTime : '' %>" readonly>
+                            </div> 
+                        <% } %>
+                    </div>
+                    <div class="centered">
+                        <button class="btn" type="button" id="btn-start">Start Working</button>
+                        <button class="btn" type="button" id="btn-end">End Working</button>
+                        <button class="btn" type="button" id="btn-annual-leave">Annual Leave</button>
+                    </div>
+            
+                    <div class="start-working form">
+                        <h2>Start Working</h2>
+                        <form action="/start-working" method="POST">
+                            <div>
+                                <label for="name">Staff's name: </label>
+                                <input type="text" name="name" id="name" value="<%= staff ? staff.name : '' %>" readonly>
+                            </div>
+                            <div>
+                                <label for="location">Working location: </label>
+                                <select name="location" id="location">
+                                    <option value="Office" selected>Office</option>
+                                    <option value="Home">Home</option>
+                                    <option value="Site">Site</option>
+                                </select>
+                            </div>
+                                
+                            <% if (!timeRecord) { %>
+                            <button class="btn" type="submit">Start</button>
+                            <% } %>
+                        </form>
+                    </div>
+            
+                    <div class="end-working form">
+                        <h2>End Working</h2>
+                        <form action="/end-working" method="POST">
+                            <div>
+                                <label for="name">Staff's name: </label>
+                                <input type="text" name="name" id="name" value="<%= staff ? staff.name : '' %>" readonly>
+                                <% if (timeRecord) { %>
+                                <input type="hidden" name="timerecordId" id="timerecordId" value="<%= timeRecord.timeRecordId._id %>">
+                                <% } %>
+                            </div>
+                            <% if (timeRecord) { %>
+                            <button class="btn" type="submit">End</button>
+                            <% } %>
+                        </form>
+                    </div>
+            
+                    <div class="annual-leave form">
+                        <h2>Annual Leave</h2>
+                        <form name="annualleaveForm" action="/annual-leave" method="POST">
+                            <div>
+                                <label for="dateOff">Date off: </label>
+                                <input type="Date" name="dateOff" id="dateOff" required>                
+                            </div>
+                            <div>
+                               <label for="reason">Your reason: </label><br>
+                                <textarea name="reason" id="reason" required></textarea> 
+                            </div>
+                            <div>
+                                <label for="hoursAmount">Hours Amount</label>
+                                <input type="number" name="hoursAmount" id="hoursAmount" min="0" max="8" required>
+                                <span id="dayWorkingAmount"></span>
+                            </div>
+                            <input type="hidden" name="annual-leave-remaining" id="annual-leave-remaining" value="<%= staff ? staff.annualleave: '' %>" readonly>
+                            <input type="hidden" id="annual-leave-record" value="<%= annualleave %>">
+                            <button class="btn" type="submit" id="btnsubmitannualleave">Submit</button>
+                        </form>
+                        <div>
+                            <label for="annual-leave-remaining">Annual Leave Remaining</label>
+                            <input type="number" name="" id="" value="<%= staff ? staff.annualleave: '' %>" readonly>
+                            <% if(staff) { %>
+                                <% if(staff.annualleave == 0) { %>
+                                    <span style="color: red">( Annual Leave's over! )</span>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    </div>
+                        <% if (!timeRecord) { %>
+                            <div class="time-record-list">
+                                <h2>List of timekeeping Today</h2>
+                                <label for="hoursamount">Amount worked hours Today: </label><span>(hours)</span>
+                                <input type="text" name="hoursamount" id="hoursamount" value="<%= hoursAmountToDay.toFixed(4) %>" readonly>
+                                <% if (timeRecords) { %>
+                                    <div class="table">
+                                        <table>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Location</th>
+                                                <th>Hours Amount</th>
+                                            </tr>
+                                                <% let i = 0 %>
+                                                <% for ( item of timeRecords.reverse() ) { %>
+                                                    <% i++ %>
+                                                    <tr>
+                                                        <td><%= i %></td>
+                                                        <td><%= item.timeRecordId.startTime %></td>
+                                                        <td><%= item.timeRecordId.endTime %></td>
+                                                        <td><%= item.timeRecordId.location%></td>
+                                                        <td><%= ((item.timeRecordId.endTime - item.timeRecordId.startTime)/1000/3600).toFixed(4) %></td>
+                                                    </tr>
+                                                <% } %>
+                                        </table>
+                                    </div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                    <div>
+                    </div>
+                </main>
 
             </main>
             <%- include('../includes/end.ejs') %>
