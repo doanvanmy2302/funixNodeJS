@@ -37,17 +37,6 @@ mongoose
     'mongodb+srv://mydoan:doanvanmy2302@cluster0.ajlp6.mongodb.net/Cluster0?retryWrites=true&w=majority'
   )
   .then(result => {
-    User.findOne().then(user=>{
-      if(!user){
-      const user= new User({
-      name: 'My',
-      email: 'my@cluster0',
-      cart: { items:[]}
-    });
-    user.save(); 
-      }
-    })
-   
     app.listen(3000);
   })
   .catch(err => {
