@@ -9,7 +9,7 @@ const MongoDBStore= require('connect-mongodb-session')(session)
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-//const MONGODB_URI='mongodb+srv://mydoan:doanvanmy2302@cluster0.ajlp6.mongodb.net/Cluster0'
+const MONGODB_URI='mongodb+srv://mydoan:doanvanmy2302@cluster0.ajlp6.mongodb.net/Cluster0'
 
 const app = express();
 const store=new MongoDBStore({
