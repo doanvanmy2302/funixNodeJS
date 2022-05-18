@@ -39,6 +39,12 @@ app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
   }
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.session.csrfToken();
+  
+})
+
   User.findById(req.session.user._id)
     .then(user => {
       req.user = user;
