@@ -38,8 +38,7 @@ User.findOne({email:email})
   if(userDoc){
     return res.redirect('/signup')
   }
-  return bcryptjs.hash(password,12)
-  })
+  return bcryptjs.hash(password,12) 
   .then(hashedPassword => {
     const user= new User({
     email: email,
@@ -48,6 +47,8 @@ User.findOne({email:email})
   })
   return user.save()
 })
+  })
+ 
 .then((result)=>{
   res.redirect('/login')
 })
