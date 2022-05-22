@@ -96,7 +96,7 @@ exports.postSignup = (req, res, next) => {
         password: password,
         confirmPassword: req.body.confirmPassword
       },
-      validationError:errors.array()
+      validationErrors:errors.array()
     });
   }
    bcrypt
