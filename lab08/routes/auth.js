@@ -12,15 +12,16 @@ router.get('/signup', authController.getSignup);
 router.post('/login', [
   body('email')
   .isEmail()
+  .normalizeEmail()
   .withMessage('please enter valid email address'),
   body('password')
   .isLength({min: 5})
-  .isAlphanumeric()
+  .isAlphanumeric().trim()
 ], authController.postLogin);
 
 router.post('/signup',  [
     check('email')
-        .isEmail()
+        .isEmail().normalizeEmail()
         .withMessage('Please enter a valid email!')
         .custom((value, { req }) => {
             return User.findOne({email:value})
@@ -34,19 +35,27 @@ router.post('/signup',  [
         'password',
         'Please enter a password with only numbers and text and at least 5 characters'
     )
-        .isLength({ min: 5 })
+        .isLength({ min: 5 }).trim()
         .isAlphanumeric(),
+        body('confirmPassword')
+        .trim()
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Passwords have to match');
+            }
+            return true;
+        }),
 ]
 , authController.postSignup);
 
 router.post('/logout', authController.postLogout);
 
-router.get('/reset', authController.getReset);
+// router.get('/reset', authController.getReset);
 
-router.post('/reset', authController.postReset);
+// router.post('/reset', authController.postReset);
 
-router.get('/reset/:token', authController.getNewPassword);
+// router.get('/reset/:token', authController.getNewPassword);
 
-router.post('/new-password', authController.postNewPassword);
+// router.post('/new-password', authController.postNewPassword);
 
 module.exports = router;
