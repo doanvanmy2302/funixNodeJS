@@ -48,7 +48,7 @@ app.use((req, res, next) => {
       req.user = user;
       next();
     })
-    .catch(err => {throw new Error(err)});
+    .catch(err => {next(new Error(err)) });
 });
 app.use((req,res,next)=>{
   res.locals.isAuthenticated = req.session.isLoggedIn;
