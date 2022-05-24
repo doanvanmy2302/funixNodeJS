@@ -22,7 +22,7 @@ const store=new MongoDBStore({
 const csrfProtection= csrf();
 const fileStorage =multer.diskStorage({
   destination: (req,file,cb)=>{
-    cd(null,'images')
+    cb(null,'images')
   },
   filename:(req,file,cb)=> {
     cb(null, new Date().toISOString()+'-'+ file.originalname)
