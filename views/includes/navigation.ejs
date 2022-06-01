@@ -1,0 +1,44 @@
+<div class="backdrop"></div>
+<header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path==='/' ? 'active' :'' %> " href='/'>TRANG CHỦ</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/timekeeping' ? 'active' : '' %>" href="/timekeeping">CHẤM CÔNG</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/staff-info' ? 'active' : '' %>" href="/staff-info">THÔNG TIN NHÂN VIÊN</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/salary' ? 'active' : '' %>" href="/salary">THÔNG TIN BẢNG LƯƠNG</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">THÔNG TIN COVID</a>
+            </li>
+           
+        </ul>
+    </nav>
+</header>
+
+<nav class="mobile-nav">
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= path==='/' ? 'active' :'' %> " href='/'>TRANG CHỦ</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/timekeeping' ? 'active' : '' %>" href="/timekeeping">CHẤM CÔNG</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/staff-info' ? 'active' : '' %>" href="/staff-info">THÔNG TIN NHÂN VIÊN</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/salary' ? 'active' : '' %>" href="/salary">THÔNG TIN BẢNG LƯƠNG</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/covid' ? 'active' : '' %>" href="/covid">THÔNG TIN COVID</a>
+        </li>
+    </ul>
+</nav>
