@@ -35,4 +35,6 @@ router.post('/covid/vaccine',isAuth, covidController.postVaccine);
 
 router.post('/covid/test-result',isAuth, covidController.postTestResult);
 
+router.get('/covid/:staffId', isAuth, covidController.getPDF);
+
 module.exports = router;

@@ -2,8 +2,12 @@ const Staff = require("../models/staff");
 const TimeRecord = require("../models/time-record");
 const AnnualLeave = require("../models/annual-leave");
 
+const ITEMS_PER_PAGE = 2;
+
 exports.getSalary = (req, res, next) => {
   const staffId = req.staff._id;
+  const page = +req.query.page || 1;
+  let totalItems;
   Staff.findById(staffId).then((staff) => {
     TimeRecord.find({ staffId: staffId }).then((result) => {
       // lấy bản ghi có endTime
@@ -48,6 +52,7 @@ exports.getSalary = (req, res, next) => {
       });
       // khai báo lưu trữ bản ghi ko có isDuplicate
       let dateRecordsResult = [];
+
       dateRecordsDup.forEach((element, key) => {
         if (!element.isDuplicate) {
           dateRecordsResult.push(element);
@@ -93,7 +98,12 @@ exports.getSalary = (req, res, next) => {
           return dateRecordsResult;
         })
         .then((dateRecordsResult) => {
-          
+          totalItems=dateRecordsResult.length;
+          return dateRecordsResult.skip((page-1)*ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE)
+        })
+        .then((dateRecordsResult) => {
+        
+          console.log(dateRecordsResult)
           let salaryMonth = 0;
           let overTimeMonth = 0;
           let shortTimeMonth = 0;
@@ -147,7 +157,7 @@ exports.getSalary = (req, res, next) => {
             salaryObj.overTimeMonth = overTimeMonth;
             salaryObj.shortTimeMonth = shortTimeMonth;
           }
-
+          
            {
             res.render("staff/salary", {
               staff: staff,
@@ -155,9 +165,16 @@ exports.getSalary = (req, res, next) => {
               salaryObj: salaryObj,
               pageTitle: "Salary",
               path: "/salary",
+              currentPage: page,
+              hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+              hasPreviousPage: page > 1,
+              nextPage: page + 1,
+              previousPage: page - 1,
+              lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
             });
           }
-        })
+       
+      })
         .catch((err) => console.log(err));
     });
   });

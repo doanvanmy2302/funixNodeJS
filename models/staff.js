@@ -31,6 +31,17 @@ const staffSchema = new Schema({
         type: Number,
         required: true
     },
+    email:{
+        type: String,
+        required: true
+    },
+    manager:{
+        type: String,
+    },
+    password: {
+        type: String,
+        required: true
+    },
     timeRecord: {
         items: [
             { 

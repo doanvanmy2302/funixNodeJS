@@ -2,6 +2,7 @@ const BodyTemp = require('../models/body-temperature');
 const Vaccine = require('../models/vaccine');
 const Staff = require('../models/staff');
 
+const PDFDocument = require('pdfkit');
 exports.postBodyTemp = (req, res, next) => {
     const temperature = req.body.bodytemp;
     const staffId = req.staff._id;
@@ -58,10 +59,51 @@ exports.postTestResult = (req, res, next) => {
 }
 
 exports.getCovid = (req, res, next) => {
-    res.render('covid/covid', {
-        pageTitle: 'Covid',
-        path: '/covid'
-      });
+    Staff.findById(req.staff._id)
+    .then((staff)=>{
+        BodyTemp.find({staffId:req.staff._id}).then((bodyTemp)=>{
+            Vaccine.find({staffId:req.staff._id}).then((vaccine)=>{
+        res.render('covid/covid', {
+            pageTitle: 'Covid',
+            path: '/covid',
+            staff: staff,
+            bodyTemp: bodyTemp[0],
+            vaccine: vaccine[0]
+          });
+        })
+    })
+    })
+    .catch(err => console.log(err))
 }
+exports.getPDF = (req, res, next) => {
+    Staff.findById(req.params.staffId)
+    .then((staff)=>{
+        BodyTemp.find({staffId:req.params.staffId}).then((bodyTemp)=>{
+       Vaccine.find({staffId:req.params.staffId}).then((vaccine)=>{
+       const d= staff.covidTestResult == true ? 'positive': 'negative';
+        const pdfDoc = new PDFDocument();
 
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'inline');
+
+        pdfDoc.pipe(res)
+        pdfDoc.fontSize(27).text("THÔNG TIN COVID NHÂN VIÊN ");
+        pdfDoc.text('------------------------------------------');
+
+        pdfDoc.fontSize(20).text('FullName : '+ staff.name);
+
+
+        pdfDoc.text('Body temperature : '+ bodyTemp[0].temperature+'  --  '+bodyTemp[0].time.toString().slice(0,15));
+        pdfDoc.text('NumberVaccine  : '+vaccine[0].numberVaccine );
+        pdfDoc.text('Vaccine type  : '+vaccine[0].type );
+        pdfDoc.text('Vaccination day :  '+ vaccine[0].date.toString().slice(0,15))
+        
+        pdfDoc.text('test covid result : '+ d);
+        pdfDoc.text('-----------------------------------------')
+        pdfDoc.end();
+         })
+       })  
+    })
+    .catch(err=>{ console.log(err)})
+}
 

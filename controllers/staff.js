@@ -27,7 +27,9 @@ exports.getStaff = (req, res, next) => {
 
 exports.postEditStaffImage = (req, res, next) => {
   const staffId = req.staff._id;
-  const imageUrl = req.body.imageUrl;
+  const image = req.file;
+ console.log(image)
+ const imageUrl = image.path;
   Staff.findById(staffId)
     .then(staff => {
       staff.imageUrl = imageUrl;
@@ -56,7 +58,6 @@ exports.getTimeKeeping = (req, res, next) => {
             Records.push(element);
           }
         });
-        console.log('1',Records)
         // lấy bản ghi của ngày hôm nay 
           var timeRecordToday = Records.filter(item => {
             return item.timeRecordId.endTime

@@ -41,8 +41,8 @@
             <tr>
                 <td><b>Link ảnh</b></td>
                 <td>
-                    <form action="/edit-staff-image" method="POST">
-                        <input type="text" name="imageUrl" id="imageUrl" >
+                    <form action="/edit-staff-image" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="image" id="image" required>
                         <button style="margin-left: 0px;" class="btn" type="submit">Cập nhập</button>
                     </form>
                 </td>

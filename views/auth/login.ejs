@@ -5,14 +5,20 @@
    <%- include('../includes/navigation.ejs') %>
     <div class="background">
     <main>
-      
+        <h2>Vui long dang nhap truoc khi bat dau</h2>
+        <% if(errorMessage){ %>
+            <div class="user-message user-message--error">
+                <%= errorMessage %>
+            </div>
+            <% } %>
             <form class="login-form" action="/login" method="POST">
                 <div class="form-control">
-                    <label for="email">E-Mail</label>
+                    <label for="email">Email</label>
                     <input
                         type="email" 
                         name="email" 
                         id="email" 
+                        value="<%= oldInput.email %>"
                         >
                 </div>
                 <div class="form-control">
@@ -22,6 +28,7 @@
                         type="password" 
                         name="password" 
                         id="password" 
+                        value="<%= oldInput.password %>"
                         >
                 </div>
                 <button class="btn" type="submit">Đăng nhập</button> 

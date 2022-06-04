@@ -42,7 +42,18 @@
                 <button class="btn" type="submit">Đăng kí</button>
             </form>
         </div>
-
+       
+        <div class="form">
+           <h2 class="centered">Thông tin covid nhân viên</h2>
+           <p>Tên nhân viên : <%= staff.name%></p>
+           <p>Nhiệt độ cơ thể : <%= bodyTemp.temperature%></p>
+           <P>Mũi vaccine : <%= vaccine.numberVaccine %></P>
+           <p>Loại vaccine : <%= vaccine.type %></p>
+           <p>Ngày tiêm : <%= vaccine.date.toString().slice(0,15) %></p>
+           <p>kết quả test covid : <%= staff.covidTestResult == true ? 'dương tính': 'âm tính'%></p>
+           <button class="btn" type="submit"><a class="covid__btn" target="_blank" href="/covid/<%= staff._id%>">XUẤT TRANG PDF</a></button>
+        </div>
+        
     </main>
 </div>
 <%- include('../includes/end.ejs') %>
