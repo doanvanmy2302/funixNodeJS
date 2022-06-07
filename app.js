@@ -2,6 +2,8 @@ const path = require('path');
 
 const Staff = require('./models/staff');
 const authRoutes= require('./routes/auth');
+const staffRoutes = require('./routes/staff');
+const managerRoutes = require('./routes/manager');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -45,7 +47,7 @@ const fileFilter = (req, file, cb) => {
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const staffRoutes = require('./routes/staff');
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
@@ -55,6 +57,7 @@ app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, s
 // bien 
 app.use((req, res, next)=>{
     res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.isManager = req.session.isManager;
     next();
 });
 app.use(flash());
@@ -76,20 +79,24 @@ app.use((req, res, next) => {
 
 app.use(staffRoutes);
 app.use(authRoutes);
+app.use(managerRoutes);
 app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
-// app.use((error, req, res, next)=>{
-//     res.render(500).render('500',{
-//         pageTitle: 'Error',
-//         isAuthenticated:req.session.isLoggedIn
-//     })
-// })
+app.use((error, req, res, next)=>{
+    console.error(error);
+    res.render(500).render('500',{
+        pageTitle: 'Error',
+        isAuthenticated:req.session.isLoggedIn
+    })
+})
 
 mongoose
     .connect(MONGODB_URI)
     .then(result => {
-        app.listen(3000);
+        app.listen(process.env.PORT || 3001, "0.0.0.0", () => {
+            console.log("Server is running.");
+          });
     })
     .catch( err => {
         console.log(err);

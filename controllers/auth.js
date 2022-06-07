@@ -40,10 +40,36 @@ exports.postLogin= (req, res, next) => {
             validationResult: errors.array()
 
         })
-    }
-    Staff.findOne({email: email})
+      }
+   
+    Staff.findOne().exec()
     .then(staff=>{
-        if(!staff){
+        
+         if(staff.manager == email){
+            bcrypt.compare(password, staff.password)
+            .then(doMatch=>{
+                if(doMatch){
+                 req.session.isManager = true;
+                 req.session.isLoggedIn = true;
+                 req.session.staff= staff; 
+                 return  req.session.save(err=>{ 
+                console.log(err) 
+                res.redirect('/') 
+            }) 
+                }
+                return res.status(422).render('auth/login',{
+                    path:'/login', 
+                    pageTitle: 'Login',
+                    errorMessage: 'mật khẩu không chính xác!',
+                    oldInput: {
+                        email: email,
+                        password: password
+                    },
+                    validationResult:[]
+                })
+            })
+         }
+        if(staff.manager!== email && staff.email!== email){
             return res.status(422)
             .render('auth/login',{
                     path: '/login',
@@ -55,30 +81,56 @@ exports.postLogin= (req, res, next) => {
                     },
                     validationErrors: []
             })
+        
         }
-        bcrypt.compare(password, staff.password)
-        .then(doMatch=>{
-            if(doMatch){
-             req.session.isLoggedIn = true;
-             req.session.staff= staff; 
-             return  req.session.save(err=>{ 
-            console.log(err) 
-            res.redirect('/') 
-        }) 
-            }
-            return res.status(422).render('auth/login',{
-                path:'/login', 
-                pageTitle: 'Login',
-                errorMessage: 'mật khẩu không chính xác!',
-                oldInput: {
-                    email: email,
-                    password: password
-                },
-                validationResult:[]
+        if(staff.email== email){
+            bcrypt.compare(password, staff.password)
+            .then(doMatch=>{
+                if(doMatch){
+                 req.session.isLoggedIn = true;
+                 req.session.staff= staff; 
+                 return  req.session.save(err=>{ 
+                console.log(err) 
+                res.redirect('/') 
+            }) 
+                }
+                return res.status(422).render('auth/login',{
+                    path:'/login', 
+                    pageTitle: 'Login',
+                    errorMessage: 'mật khẩu không chính xác!',
+                    oldInput: {
+                        email: email,
+                        password: password
+                    },
+                    validationResult:[]
+                })
             })
-        })
-        .catch(err=>{ console.log(err)
-        res.redirect('/login')})
+
+         }
+        // bcrypt.compare(password, staff.password)
+        // .then(doMatch=>{
+        //     if(doMatch){
+        //      req.session.isLoggedIn = true;
+        //      req.session.staff= staff; 
+        //      return  req.session.save(err=>{ 
+        //     console.log(err) 
+        //     res.redirect('/') 
+        // }) 
+        //     }
+        //     return res.status(422).render('auth/login',{
+        //         path:'/login', 
+        //         pageTitle: 'Login',
+        //         errorMessage: 'mật khẩu không chính xác!',
+        //         oldInput: {
+        //             email: email,
+        //             password: password
+        //         },
+        //         validationResult:[]
+        //     })
+        // })
+
+        // .catch(err=>{ console.log(err)
+        // res.redirect('/login')})
        
     })
     .catch(err=> console.log(err))

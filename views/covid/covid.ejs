@@ -9,7 +9,7 @@
             <h2 class="centered">Nhiệt độ cơ thể</h2>
             <form action="/covid/body-temperature" method="POST">
                 <div>
-                    <input type="number" name="bodytemp" id="bodytemp" step="1" placeholder="nhiệt độ cơ thể ...">
+                    <input type="number" name="bodytemp" id="bodytemp" step="1" placeholder="nhiệt độ cơ thể ..." required>
                 </div>
                 <button class="btn" type="submit">Đăng kí</button>
             </form>
@@ -20,9 +20,9 @@
             <form action="/covid/vaccine" method="POST">
                 <div>
                     <label for="numberVaccine">Vaccine mũi số: </label>
-                    <input type="number" name="numberVaccine" id="numberVaccine" min="1" placeholder="Mũi 1 ...">
+                    <input type="number" name="numberVaccine" id="numberVaccine" min="1" placeholder="Mũi 1 ..." required>
                     <label for="vaccine_type">Loại Vaccine : </label>
-                    <input type="text" name="vaccine_type" id="vaccine_type" placeholder="loại Vaccine...">
+                    <input type="text" name="vaccine_type" id="vaccine_type" placeholder="loại Vaccine..." required>
                     <label for="vaccine_date">Ngày đăng kí tiêm : </label>
                     <input type="date" name="vaccine_date" id="vaccine_date">
                 </div>
@@ -42,7 +42,7 @@
                 <button class="btn" type="submit">Đăng kí</button>
             </form>
         </div>
-       
+       <% if(isManager) { %>
         <div class="form">
            <h2 class="centered">Thông tin covid nhân viên</h2>
            <p>Tên nhân viên : <%= staff.name%></p>
@@ -53,7 +53,7 @@
            <p>kết quả test covid : <%= staff.covidTestResult == true ? 'dương tính': 'âm tính'%></p>
            <button class="btn" type="submit"><a class="covid__btn" target="_blank" href="/covid/<%= staff._id%>">XUẤT TRANG PDF</a></button>
         </div>
-        
+        <% } %>
     </main>
 </div>
 <%- include('../includes/end.ejs') %>

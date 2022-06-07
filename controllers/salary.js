@@ -7,7 +7,7 @@ const ITEMS_PER_PAGE = 2;
 exports.getSalary = (req, res, next) => {
   const staffId = req.staff._id;
   const page = +req.query.page || 1;
-  let totalItems;
+  
   Staff.findById(staffId).then((staff) => {
     TimeRecord.find({ staffId: staffId }).then((result) => {
       // lấy bản ghi có endTime
@@ -97,13 +97,9 @@ exports.getSalary = (req, res, next) => {
           }
           return dateRecordsResult;
         })
-        .then((dateRecordsResult) => {
-          totalItems=dateRecordsResult.length;
-          return dateRecordsResult.skip((page-1)*ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE)
-        })
-        .then((dateRecordsResult) => {
         
-          console.log(dateRecordsResult)
+        .then((dateRecordsResult) => {
+         const totalItems= dateRecordsResult.length
           let salaryMonth = 0;
           let overTimeMonth = 0;
           let shortTimeMonth = 0;
@@ -115,24 +111,20 @@ exports.getSalary = (req, res, next) => {
           };
 
           if (staff.monthSelected) {
-            for (let i = 0; i < dateRecordsResult.length; i++) {
+            for (let i = 0; i <totalItems ; i++) {
               let overTimeDay = 0;
               let shortTimeDay = 0;
               overTimeDay =
-                dateRecordsResult[i].dayHoursAmount +
-                  dateRecordsResult[i].annualLeaveofDay >
+                dateRecordsResult[i].dayHoursAmount + dateRecordsResult[i].annualLeaveofDay >
                 8
-                  ? dateRecordsResult[i].dayHoursAmount +
-                    dateRecordsResult[i].annualLeaveofDay -
+                  ? dateRecordsResult[i].dayHoursAmount +dateRecordsResult[i].annualLeaveofDay -
                     8
                   : 0;
               shortTimeDay =
-                dateRecordsResult[i].dayHoursAmount +
-                  dateRecordsResult[i].annualLeaveofDay <
+                dateRecordsResult[i].dayHoursAmount +dateRecordsResult[i].annualLeaveofDay <
                 8
                   ? 8 -
-                    dateRecordsResult[i].dayHoursAmount -
-                    dateRecordsResult[i].annualLeaveofDay
+                    dateRecordsResult[i].dayHoursAmount - dateRecordsResult[i].annualLeaveofDay
                   : 0;
 
               dateRecordsResult[i].overTime = overTimeDay;
@@ -156,12 +148,18 @@ exports.getSalary = (req, res, next) => {
             salaryObj.salaryMonth = salaryMonth;
             salaryObj.overTimeMonth = overTimeMonth;
             salaryObj.shortTimeMonth = shortTimeMonth;
-          }
+            
           
+         
+          }
+
+          const pagination = (dateRecordsResult, ITEMS_PER_PAGE, page) => {
+            return dateRecordsResult.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+          };
            {
             res.render("staff/salary", {
               staff: staff,
-              timeRecords: dateRecordsResult,
+              timeRecords: pagination(dateRecordsResult,ITEMS_PER_PAGE, page),
               salaryObj: salaryObj,
               pageTitle: "Salary",
               path: "/salary",
@@ -175,7 +173,11 @@ exports.getSalary = (req, res, next) => {
           }
        
       })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);  
+        });
     });
   });
 };
@@ -192,5 +194,9 @@ exports.postMonthSalary = (req, res, next) => {
       console.log("Updated selected month!");
       res.redirect("/salary");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);  
+    });
 };

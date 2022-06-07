@@ -6,17 +6,17 @@ const authController = require('../controllers/auth');
 
 const router= express.Router();
 
-router.get('/login',[
+router.get('/login', authController.getLogin);
+
+router.post('/login',[
     body('email')
     .isEmail()
-    .withMessage('please enter a valid email'), 
-    body('password', 'Password has to be valid')
+    .withMessage('email không hợp lệ'), 
+    body('password', 'Mật khẩu chứa ít nhất 5 kí tự')
     .isLength({min: 5})
     .isAlphanumeric()
     .trim()
-], authController.getLogin);
-
-router.post('/login', authController.postLogin);
+], authController.postLogin);
 
 router.post('/logout', authController.postLogout);
 

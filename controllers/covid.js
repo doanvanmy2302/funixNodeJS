@@ -18,7 +18,12 @@ exports.postBodyTemp = (req, res, next) => {
             console.log('Posted body temperature success!');
             res.redirect('/covid')
         })
-        .catch(err => console.log(err))
+        .catch((err) =>{
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);  
+        }
+         )
 }
 
 exports.postVaccine = (req, res, next) => {
@@ -39,7 +44,11 @@ exports.postVaccine = (req, res, next) => {
             console.log('Posted vaccince success!');
             res.redirect('/covid')
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);  
+          })
 }
 
 exports.postTestResult = (req, res, next) => {
@@ -55,7 +64,11 @@ exports.postTestResult = (req, res, next) => {
             console.log('Updated covid test result!');
             res.redirect('/covid')
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);  
+          })
 }
 
 exports.getCovid = (req, res, next) => {
@@ -67,13 +80,17 @@ exports.getCovid = (req, res, next) => {
             pageTitle: 'Covid',
             path: '/covid',
             staff: staff,
-            bodyTemp: bodyTemp[0],
+            bodyTemp: bodyTemp[bodyTemp.length - 1],
             vaccine: vaccine[0]
           });
         })
     })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);  
+      })
 }
 exports.getPDF = (req, res, next) => {
     Staff.findById(req.params.staffId)
@@ -104,6 +121,10 @@ exports.getPDF = (req, res, next) => {
          })
        })  
     })
-    .catch(err=>{ console.log(err)})
+    .catch(err=>{
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);  
+      })
 }
 

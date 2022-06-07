@@ -21,7 +21,9 @@ exports.getStaff = (req, res, next) => {
       })
     })
     .catch(err => {
-      console.log(err)
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);  
     })
 }
 
@@ -38,7 +40,11 @@ exports.postEditStaffImage = (req, res, next) => {
     .then(result => {
       res.redirect('/staff-info')
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);  
+    })
 }
 exports.getTimeKeeping = (req, res, next) => {
   const staffId = req.staff._id;
@@ -95,7 +101,11 @@ exports.getTimeKeeping = (req, res, next) => {
             .catch(err => { console.log(err) })
         })
     })
-    .catch(err => { console.log(err) })
+    .catch(err =>{
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);  
+    })
 }
 exports.postStartWorking= (req, res, next) => {
   const staffId= req.staff._id;
@@ -116,7 +126,11 @@ exports.postStartWorking= (req, res, next) => {
   .then(result=>{
     res.redirect('/timekeeping')
   })
-  .catch(err=>console.log(err))
+  .catch(err=>{
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);  
+  })
 }
 exports.postEndWorking= (req, res, next) => {
   const timeRecordId= req.body.timeRecordId;
@@ -132,5 +146,9 @@ exports.postEndWorking= (req, res, next) => {
    console.log('post endTime')
    res.redirect('/timekeeping')
  })
- .catch(err =>console.log(err))
+ .catch(err =>{
+  const error = new Error(err);
+  error.httpStatusCode = 500;
+  return next(error);  
+})
 }

@@ -10,10 +10,10 @@ const isManager = require('../middleware/is-manager');
 
 router.get('/manager', isAuth, isManager, ManagerController.getManager);
 
-router.post('/manager/staff',isAuth, isManager, ManagerController.postManagerStaff);
+router.post('/manager',isAuth, isManager, ManagerController.postManager);
 
-router.post('/manager/deleteRecord',isAuth, isManager, ManagerController.postDeleteRecord);
+ router.post('/deleteRecord',isAuth, isManager, ManagerController.postDeleteRecord);
 
-router.post('/manager/isConfirm',isAuth, isManager, ManagerController.postIsConfirm);
+// router.post('/manager/isConfirm',isAuth, isManager, ManagerController.postIsConfirm);
 
 module.exports = router;
