@@ -124,6 +124,7 @@ exports.postStartWorking= (req, res, next) => {
     return staff.addTimeRecord(timeRecord)
   })
   .then(result=>{
+    console.log('add record success')
     res.redirect('/timekeeping')
   })
   .catch(err=>{

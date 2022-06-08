@@ -22,9 +22,10 @@ exports.getManager = (req, res, next) => {
             
           });
              let t =resultHasEndTime.map((item) => {return item.hoursAmount})
-          let totalSalary = t.reduce(function(totalSalary, currentValue){
-            return totalSalary+ currentValue
-          })
+          let totalSalary = 0; 
+          for(let a of t){
+            totalSalary += a
+          }
         console.log(totalSalary)
        
             res.render("manager/manager", {
